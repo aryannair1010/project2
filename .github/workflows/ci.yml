@@ -2,15 +2,22 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   check:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - run: echo "HTML OK"
-      - run: echo "CSS OK"
-      - run: echo "JS OK"
+      - name: HTML check
+        run: echo "HTML OK"
+
+      - name: CSS check
+        run: echo "CSS OK"
+
+      - name: JS check
+        run: echo "JS OK"
