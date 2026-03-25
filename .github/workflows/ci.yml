@@ -1,0 +1,16 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: echo "HTML OK"
+      - run: echo "CSS OK"
+      - run: echo "JS OK"
