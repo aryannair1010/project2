@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin — Messages</title>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Noto+Sans+JP&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink: #ff2d78;
+      --cyan: #00f5ff;
+      --bg: #06040f;
+      --card: #120d22;
+      --border: #2a1f45;
+      --text: #e8d5ff;
+      --muted: #8b7aaa;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans JP', sans-serif;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: 'Zen Dots', cursive;
+      font-size: 1.2rem;
+      color: var(--pink);
+      text-shadow: 0 0 15px var(--pink);
+    }
+
+    .stats {
+      font-family: 'Zen Dots', cursive;
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
+    .stats span { color: var(--cyan); }
+
+    .refresh-btn {
+      font-family: 'Zen Dots', cursive;
+      font-size: .75rem;
+      padding: .5rem 1.2rem;
+      background: transparent;
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .refresh-btn:hover {
+      background: rgba(0,245,255,.08);
+      box-shadow: 0 0 15px rgba(0,245,255,.3);
+    }
+
+    #loading {
+      text-align: center;
+      padding: 4rem;
+      font-family: 'Zen Dots', cursive;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    #error-msg {
+      display: none;
+      background: rgba(255,45,120,.08);
+      border: 1px solid var(--pink);
+      color: var(--pink);
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      font-size: .85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    #no-messages {
+      display: none;
+      text-align: center;
+      padding: 4rem;
+      color: var(--muted);
+      font-family: 'Zen Dots', cursive;
+      font-size: .85rem;
+    }
+
+    .messages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .msg-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition: border-color .3s, transform .2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .msg-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--pink), var(--cyan));
+    }
+    .msg-card:hover {
+      border-color: var(--pink);
+      transform: translateY(-3px);
+    }
+
+    .msg-id {
+      font-family: 'Zen Dots', cursive;
+      font-size: .65rem;
+      color: var(--muted);
+      margin-bottom: .8rem;
+    }
+    .msg-id span { color: var(--pink); }
+
+    .msg-name {
+      font-family: 'Zen Dots', cursive;
+      font-size: 1rem;
+      color: #fff;
+      margin-bottom: .3rem;
+    }
+
+    .msg-email {
+      font-size: .8rem;
+      color: var(--cyan);
+      margin-bottom: 1rem;
+      text-decoration: none;
+    }
+    .msg-email:hover { text-decoration: underline; }
+
+    .msg-body {
+      font-size: .85rem;
+      color: var(--text);
+      line-height: 1.7;
+      background: rgba(255,255,255,.03);
+      padding: .8rem;
+      border-radius: 6px;
+      border-left: 2px solid var(--pink);
+    }
+
+    .msg-time {
+      font-size: .7rem;
+      color: var(--muted);
+      margin-top: .8rem;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">📨 Admin — Messages</div>
+    <div class="stats">Total: <span id="count">...</span> messages</div>
+    <button class="refresh-btn" onclick="loadMessages()">↻ Refresh</button>
+  </header>
+
+  <div id="error-msg">❌ Could not connect to backend. Make sure your Render backend is running!</div>
+  <div id="loading">Loading messages...</div>
+  <div id="no-messages">📭 No messages yet. Share your portfolio!</div>
+  <div class="messages-grid" id="messages-grid"></div>
+
+  <script>
+    // ⚠️ Replace with your Render backend URL
+    const BACKEND_URL = 'https://portfolio-backend-wjgs.onrender.com';
+
+    async function loadMessages() {
+      const loading   = document.getElementById('loading');
+      const grid      = document.getElementById('messages-grid');
+      const errorMsg  = document.getElementById('error-msg');
+      const noMsg     = document.getElementById('no-messages');
+      const count     = document.getElementById('count');
+
+      loading.style.display = 'block';
+      grid.innerHTML = '';
+      errorMsg.style.display = 'none';
+      noMsg.style.display = 'none';
+
+      try {
+        const res  = await fetch(`${BACKEND_URL}/messages`);
+        const data = await res.json();
+        const msgs = data.messages || [];
+
+        loading.style.display = 'none';
+        count.textContent = msgs.length;
+
+        if (msgs.length === 0) {
+          noMsg.style.display = 'block';
+          return;
+        }
+
+        msgs.forEach(msg => {
+          const date = msg.created_at
+            ? new Date(msg.created_at).toLocaleString()
+            : 'No date';
+
+          const card = document.createElement('div');
+          card.className = 'msg-card';
+          card.innerHTML = `
+            <div class="msg-id">ID: <span>#${msg.id}</span></div>
+            <div class="msg-name">${escapeHtml(msg.name)}</div>
+            <a class="msg-email" href="mailto:${escapeHtml(msg.email)}">${escapeHtml(msg.email)}</a>
+            <div class="msg-body">${escapeHtml(msg.message)}</div>
+            <div class="msg-time">📅 ${date}</div>
+          `;
+          grid.appendChild(card);
+        });
+
+      } catch (err) {
+        loading.style.display = 'none';
+        errorMsg.style.display = 'block';
+        count.textContent = '0';
+        console.error('Error:', err);
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    // Load on page open
+    loadMessages();
+  </script>
+
+</body>
+</html>
