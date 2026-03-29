@@ -118,7 +118,7 @@ fills.forEach(f => {
 // ── Contact Form ────────────────────────────────
 // ⚠️ While testing locally use http://localhost:5000
 // ⚠️ After deploying to Render, replace with your Render URL
-const BACKEND_URL = 'https://portfolio-backend-xxxx.onrender.com';
+const BACKEND_URL = 'https://portfolio-backend-wjgs.onrender.com';
 
 const form       = document.getElementById('contact-form');
 const submitBtn  = document.getElementById('submit-btn');
