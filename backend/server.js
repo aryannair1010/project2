@@ -9,14 +9,24 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// PostgreSQL connection
+// PostgreSQL connection using DATABASE_URL
 const pool = new Pool({
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  database: process.env.DB_NAME,
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === "production"
+    ? { rejectUnauthorized: false }
+    : false,
 });
+
+// create table if not exists
+pool.query(`
+  CREATE TABLE IF NOT EXISTS contacts (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    message TEXT NOT NULL
+  )
+`).then(() => console.log("✅ contacts table ready"))
+  .catch(err => console.error("Table error:", err));
 
 // test route
 app.get("/", (req, res) => {
@@ -34,7 +44,6 @@ app.post("/contact", async (req, res) => {
     );
 
     console.log("Saved to DB ✅");
-
     res.json({ success: true });
   } catch (err) {
     console.error("DB ERROR:", err);
@@ -43,6 +52,7 @@ app.post("/contact", async (req, res) => {
 });
 
 // start server
-app.listen(5000, () => {
-  console.log("Server running on http://localhost:5000");
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
