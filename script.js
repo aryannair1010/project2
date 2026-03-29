@@ -116,8 +116,9 @@ fills.forEach(f => {
 
 
 // ── Contact Form ────────────────────────────────
-// ⚠️  Replace BACKEND_URL with your Render.com backend URL after deployment
-const BACKEND_URL = 'https://YOUR-BACKEND.onrender.com';
+// ⚠️ While testing locally use http://localhost:5000
+// ⚠️ After deploying to Render, replace with your Render URL
+const BACKEND_URL = 'http://localhost:5000';
 
 const form       = document.getElementById('contact-form');
 const submitBtn  = document.getElementById('submit-btn');
@@ -129,7 +130,6 @@ form.addEventListener('submit', async (e) => {
 
   const name    = document.getElementById('fname').value.trim();
   const email   = document.getElementById('femail').value.trim();
-  const subject = document.getElementById('fsubject').value.trim();
   const message = document.getElementById('fmessage').value.trim();
 
   if (!name || !email || !message) {
@@ -142,23 +142,22 @@ form.addEventListener('submit', async (e) => {
   btnText.textContent = '送信中... Sending...';
 
   try {
-    const res = await fetch(`${BACKEND_URL}/api/contact`, {
+    const res = await fetch(`${BACKEND_URL}/contact`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, subject, message }),
+      body: JSON.stringify({ name, email, message }),
     });
 
     const data = await res.json();
 
-    if (res.ok) {
+    if (data.success) {
       showStatus('✅ メッセージ送信完了！ Message sent! I will reply soon.', 'success');
       form.reset();
     } else {
-      showStatus(`❌ Error: ${data.error || 'Something went wrong.'}`, 'error');
+      showStatus('❌ Something went wrong. Please try again.', 'error');
     }
   } catch (err) {
-    // If backend is not yet deployed, show a friendly message
-    showStatus('⚠️ Backend not connected yet — deploy to Render.com first!', 'error');
+    showStatus('⚠️ Backend not connected yet — start your server first!', 'error');
     console.error('Contact form error:', err);
   } finally {
     submitBtn.disabled = false;

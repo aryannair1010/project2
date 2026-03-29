@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Aryan S Nair — Portfolio</title>
+  <title>YOUR NAME — Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&family=Zen+Dots&family=Sawarabi+Gothic&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css"/>
@@ -31,7 +31,7 @@
     <div class="nav-pill">BCA <span class="pink">●</span> LIVE</div>
   </nav>
 
-  <!-- HERO -->
+  <!-- ═══════════ HERO ═══════════ -->
   <section id="hero">
     <div class="hero-left">
       <div class="glitch-tag">// 東京 PORTFOLIO //</div>
@@ -62,7 +62,7 @@
     </div>
   </section>
 
-  <!-- ABOUT -->
+  <!-- ═══════════ ABOUT ═══════════ -->
   <section id="about" class="section">
     <div class="sec-label">01 / について</div>
     <div class="about-wrap">
@@ -92,7 +92,7 @@
     </div>
   </section>
 
-  <!-- SKILLS -->
+  <!-- ═══════════ SKILLS ═══════════ -->
   <section id="skills" class="section alt">
     <div class="sec-label">02 / スキル</div>
     <h2 class="sec-title">Tech <span class="pink">Stack</span></h2>
@@ -126,7 +126,7 @@
     </div>
   </section>
 
-  <!-- PROJECTS -->
+  <!-- ═══════════ PROJECTS ═══════════ -->
   <section id="projects" class="section">
     <div class="sec-label">03 / プロジェクト</div>
     <h2 class="sec-title">Featured <span class="pink">Projects</span></h2>
@@ -138,10 +138,71 @@
         <div class="p-stack"><span>HTML</span><span>CSS</span><span>JS</span><span>Node.js</span><span>PostgreSQL</span></div>
         <div class="p-links"><a href="#" class="pl pink">GitHub →</a><a href="#" class="pl cyan">Live →</a></div>
       </div>
+      <div class="proj-card">
+        <div class="proj-top"><span class="proj-num cyan">02</span><span class="badge-wip"><span class="dy"></span>WIP</span></div>
+        <h3>SecureNotes App</h3>
+        <p>Encrypted note-taking with JWT authentication, bcrypt hashing, and a secure REST API backend.</p>
+        <div class="p-stack"><span>Express</span><span>JWT</span><span>bcrypt</span><span>PostgreSQL</span></div>
+        <div class="p-links"><a href="#" class="pl pink">GitHub →</a></div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-top"><span class="proj-num pink">03</span><span class="badge-live"><span class="dg"></span>LIVE</span></div>
+        <h3>Quiz Battle Arena</h3>
+        <p>Real-time multiplayer quiz game with WebSockets. Scores tracked in a PostgreSQL leaderboard.</p>
+        <div class="p-stack"><span>WebSockets</span><span>Node.js</span><span>SQL</span></div>
+        <div class="p-links"><a href="#" class="pl pink">GitHub →</a><a href="#" class="pl cyan">Live →</a></div>
+      </div>
+      <div class="proj-card add-card">
+        <span class="add-plus">+</span>
+        <p>Add your project — edit <code>index.html</code></p>
+      </div>
     </div>
   </section>
 
-  <!-- CONTACT -->
+  <!-- ═══════════ WORKFLOW ═══════════ -->
+  <section id="workflow" class="section alt">
+    <div class="sec-label">04 / ワークフロー</div>
+    <h2 class="sec-title">HOD's <span class="pink">Workflow</span></h2>
+    <p class="wf-sub">Modern Web Development Pipeline — exactly as implemented in this portfolio</p>
+    <div class="wf-flow">
+      <div class="wf-step">
+        <div class="wf-icon pg">💻</div>
+        <div class="wf-name">Local Git Repo</div>
+        <div class="wf-desc">Write code in VS Code. Stage &amp; commit with Git locally.</div>
+        <code>git commit -m "feat"</code>
+      </div>
+      <div class="wf-arr">⟶</div>
+      <div class="wf-step">
+        <div class="wf-icon cg">🐙</div>
+        <div class="wf-name">GitHub</div>
+        <div class="wf-desc">Push to remote. Triggers the CI/CD pipeline automatically.</div>
+        <code>git push origin main</code>
+      </div>
+      <div class="wf-arr">⟶</div>
+      <div class="wf-step">
+        <div class="wf-icon pg">⚙️</div>
+        <div class="wf-name">CI/CD Pipeline</div>
+        <div class="wf-desc">GitHub Actions runs tests &amp; linting on every push.</div>
+        <code>.github/workflows/ci.yml</code>
+      </div>
+      <div class="wf-arr">⟶</div>
+      <div class="wf-step">
+        <div class="wf-icon cg">☁️</div>
+        <div class="wf-name">Hosting</div>
+        <div class="wf-desc">Frontend → GitHub Pages. Backend + DB → Render.com.</div>
+        <code>Auto-deploy on merge</code>
+      </div>
+      <div class="wf-arr">⟶</div>
+      <div class="wf-step">
+        <div class="wf-icon pg">🌐</div>
+        <div class="wf-name">Web Browser</div>
+        <div class="wf-desc">Users visit your live site. Form → Backend → PostgreSQL.</div>
+        <code>yourname.github.io</code>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ CONTACT ═══════════ -->
   <section id="contact" class="section">
     <div class="sec-label">05 / 連絡</div>
     <h2 class="sec-title">Get In <span class="pink">Touch</span></h2>
@@ -163,19 +224,31 @@
           <textarea id="fmessage" rows="5" placeholder="Write your message..." required></textarea>
         </div>
         <button type="submit" id="submit-btn">
-          <span id="btn-text">Send Message</span>
+          <span id="btn-text">送信する → Send Message</span>
         </button>
         <div id="form-status"></div>
       </form>
+      <div class="contact-side">
+        <div class="ci-card">
+          <div class="ci-title">Find me online</div>
+          <a href="https://github.com/yourusername" class="ci-link" target="_blank"><span>🐙</span> github.com/yourusername</a>
+          <a href="/cdn-cgi/l/email-protection#dca5b3a99cb9b1bdb5b0f2bfb3b1" class="ci-link"><span>✉️</span> <span class="__cf_email__" data-cfemail="9ee7f1ebdefbf3fff7f2b0fdf1f3">[email&#160;protected]</span></a>
+          <a href="https://linkedin.com/in/yourusername" class="ci-link" target="_blank"><span>💼</span> LinkedIn</a>
+        </div>
+        <div class="kanji-art">
+          <span>繋</span>
+          <p>Connection</p>
+        </div>
+      </div>
     </div>
   </section>
 
   <footer>
     <div class="footer-in">
-      <div class="footer-brand"><span class="kanji-logo">学</span> Aryan S Nair</div>
-      <p>Built with GitHub Pages</p>
+      <div class="footer-brand"><span class="kanji-logo">学</span> YOUR NAME</div>
+      <p>Built with 💜 · GitHub Pages + Render.com</p>
       <p class="pink">Local Git → GitHub → CI/CD → Hosting → You</p>
-      <p style="opacity:.4;font-size:.75rem;margin-top:.5rem">© 2025 Aryan S Nair</p>
+      <p style="opacity:.4;font-size:.75rem;margin-top:.5rem">© 2025 YOUR NAME. BCA Student.</p>
     </div>
   </footer>
 
